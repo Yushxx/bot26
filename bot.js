@@ -138,7 +138,7 @@ bot.hears('Mon compte 👥', (ctx) => {
 // Inviter
 bot.hears('Inviter🫂', (ctx) => {
   const userId = ctx.message.from.id;
-  ctx.reply(`Partager ce lien et gagnez 700 Fcfa à chaque invité:\nLien: t.me/GXG88bot?start=${userId}`);
+  ctx.reply(`Partager ce lien et gagnez 700 Fcfa à chaque invité:\n🔗Lien: https://t.me/Hush_cashbot?start=${userId}`);
 });
 
 // Play to win 🎮
@@ -146,7 +146,7 @@ bot.hears('Play to win 🎮', (ctx) => {
   const userId = ctx.message.from.id;
 
   // Le lien pour jouer, avec un code d'accès unique basé sur l'ID de l'utilisateur
-  const playLink = `https://t.me/Hush_cashbot/tap?ref=${userId}`;
+  const playLink = `https://t.me/gxgcashbot/notcoin?ref=${userId}`;
 
   // Envoyer un message avec le code d'accès unique et un bouton inline "Play"
   ctx.reply(`Taper et gagner des pièces\n\nVotre code d'accès: ${userId}\n\nCliquez en bas pour commencer`, {
