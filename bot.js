@@ -68,8 +68,7 @@ bot.start((ctx) => {
     }
   });
 
-  ctx.reply('Salut ${username}, bienvenue dans le programme de récompense GxGcash. Veuillez rejoindre les canaux ci-dessous avant de continuer:',{
-
+  ctx.reply(`Salut, bienvenue dans le programme de récompense GxGcash. Veuillez rejoindre les canaux ci-dessous avant de continuer:`, {
   reply_markup: {
       inline_keyboard: [
       [{ text: 'Canal 1', url: 'https://t.me/+YbIDtsrloZZiNmE0' }],
@@ -99,7 +98,7 @@ bot.action('check', (ctx) => {
             keyboard: [
               [{ text: 'Mon compte 👥' }, { text: 'Inviter🫂' }],
               [{ text: 'Play to win 🎮' }, { text: 'Withdrawal💰' }],
-              [{ text: 'Support📩' }]
+              [{ text: 'Support📩' }, { text: 'tuto' }]
             ],
             resize_keyboard: true,
             one_time_keyboard:false 
@@ -183,6 +182,18 @@ bot.hears('Withdrawal💰', (ctx) => {
     }
   });
 });
+// Support
+bot.hears('tuto👇', (ctx) => {
+  ctx.reply(`tuto`  , {
+              reply_markup: {
+                  inline_keyboard: [
+                  [{ text: 'voir le tuto 🔗', url: 'https://t.me/gxgcaca' }]
+                          ]
+    },
+    parse_mode: 'Markdown'
+  });
+});
+
 
 // Support
 bot.hears('Support📩', (ctx) => {
