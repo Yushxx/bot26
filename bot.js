@@ -182,12 +182,12 @@ bot.hears('Withdrawal💰', (ctx) => {
     }
   });
 });
-// Support
-bot.hears('tuto👇', (ctx) => {
-  ctx.reply(`tuto`  , {
+// tuto
+bot.hears('tuto', (ctx) => {
+  ctx.reply(`tuto👇`  , {
               reply_markup: {
                   inline_keyboard: [
-                  [{ text: 'voir le tuto 🔗', url: 'https://t.me/gxgcaca' }]
+                  [{ text: 'voir le tutoriel🔗', url: 'https://t.me/gxgcaca' }]
                           ]
     },
     parse_mode: 'Markdown'
