@@ -68,28 +68,17 @@ bot.start((ctx) => {
     }
   });
 
-  ctx.reply(`Salut ${username}, bienvenue dans le programme de récompense GxGcash. Veuillez rejoindre les canaux ci-dessous avant de continuer:
-
-
-
-
-
-
-
-
-👉: [Rejoindre solkah](https://t.me/+YbIDtsrloZZiNmE0)
-
-👉 : [ Rejoindre Jushey Moneyⓥ ](https://t.me/+qm3jHNWSJYtlOTJk)`, {
-    reply_markup: {
-      inline_keyboard: [
+  ctx.reply(`Salut ${username}, bienvenue dans le programme de récompense GxGcash. Veuillez rejoindre les canaux ci-dessous avant de continuer:`, {
+  reply_markup: {
+    inline_keyboard: [
       [{ text: 'Canal 1', url: 'https://t.me/+YbIDtsrloZZiNmE0' }],
-                [{ text: 'Canal 2', url: 'https://t.me/+rSXyxHTwcN5lNWE0' }],
-        [{ text: 'Check', callback_data: 'check' }]
-      ]
-    },
-    parse_mode: 'Markdown'
-  });
+      [{ text: 'Canal 2', url: 'https://t.me/+rSXyxHTwcN5lNWE0' }],
+      [{ text: 'Check✅️', callback_data: 'check' }]
+    ]
+  },
+  parse_mode: 'Markdown'
 });
+
 
 // Vérification de l'adhésion aux canaux
 bot.action('check', (ctx) => {
