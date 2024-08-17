@@ -6,7 +6,6 @@ const http = require('http');
 const bot = new Telegraf('7055389679:AAHgPOvZ0UWArqOvNszAIBsfuvaOf-U4oDI');
 
 // Configurer la connexion MySQL
-// Configurer la connexion MySQL
 const db = mysql.createConnection({
   host: '109.70.148.57',
   user: 'solkahor_aire',
@@ -69,18 +68,16 @@ bot.start((ctx) => {
   });
 
   ctx.reply(`Salut, bienvenue dans le programme de récompense GxGcash. Veuillez rejoindre les canaux ci-dessous avant de continuer:`, {
-  reply_markup: {
+    reply_markup: {
       inline_keyboard: [
-      [{ text: 'Canal 1', url: 'https://t.me/+YbIDtsrloZZiNmE0' }],
-                [{ text: 'Canal 2', url: 'https://t.me/+rSXyxHTwcN5lNWE0' }],
+        [{ text: 'Canal 1', url: 'https://t.me/+YbIDtsrloZZiNmE0' }],
+        [{ text: 'Canal 2', url: 'https://t.me/+rSXyxHTwcN5lNWE0' }],
         [{ text: 'Check✅️', callback_data: 'check' }]
       ]
     },
     parse_mode: 'Markdown'
   });
 });
-
-
 
 // Vérification de l'adhésion aux canaux
 bot.action('check', (ctx) => {
@@ -101,7 +98,7 @@ bot.action('check', (ctx) => {
               [{ text: 'Support📩' }, { text: 'tuto' }]
             ],
             resize_keyboard: true,
-            one_time_keyboard:false 
+            one_time_keyboard: false 
           }
         });
       } else {
@@ -182,18 +179,18 @@ bot.hears('Withdrawal💰', (ctx) => {
     }
   });
 });
+
 // tuto
 bot.hears('tuto', (ctx) => {
-  ctx.reply(`tuto👇`  , {
-              reply_markup: {
-                  inline_keyboard: [
-                  [{ text: 'voir le tutoriel🔗', url: 'https://t.me/gxgcaca' }]
-                          ]
+  ctx.reply(`tuto👇`, {
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: 'voir le tutoriel🔗', url: 'https://t.me/gxgcaca' }]
+      ]
     },
     parse_mode: 'Markdown'
   });
 });
-
 
 // Support
 bot.hears('Support📩', (ctx) => {
@@ -203,6 +200,7 @@ bot.hears('Support📩', (ctx) => {
 bot.launch();
 
 console.log('Bot démarré');
+
 // Code keep_alive pour éviter que le bot ne s'endorme
 http.createServer(function (req, res) {
     res.write("I'm alive");
