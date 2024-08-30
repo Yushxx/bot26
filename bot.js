@@ -35,7 +35,7 @@ function isUserRegistered(userId, callback) {
 
 // Fonction pour enregistrer un nouvel utilisateur
 function registerUser(userId, username, referrerId) {
-  db.query('INSERT INTO users (id, username, balance, invited_count, referrer_id) VALUES (?, ?, 0, 0, ?)', [userId, username, referrerId], (err, results) => {
+  db.query('INSERT INTO users (id, username, balance, invited_count, referrer_id) VALUES (?, ?, 0, 0, ?)', [userId, username, referrerId], (err) => {
     if (err) {
       console.error('Erreur lors de l\'enregistrement de l\'utilisateur:', err);
       return;
@@ -44,7 +44,7 @@ function registerUser(userId, username, referrerId) {
 
     // Mettre à jour le compteur d'invités du parrain
     if (referrerId) {
-      db.query('UPDATE users SET invited_count = invited_count + 1 WHERE id = ?', [referrerId], (err, results) => {
+      db.query('UPDATE users SET invited_count = invited_count + 1 WHERE id = ?', [referrerId], (err) => {
         if (err) {
           console.error('Erreur lors de la mise à jour du compteur d\'invités:', err);
         } else {
@@ -57,9 +57,9 @@ function registerUser(userId, username, referrerId) {
 
 // Commande /start
 bot.start((ctx) => {
-  const userId = ctx.message.from.id;
-  const username = ctx.message.from.username || 'Utilisateur';
-  const referrerId = ctx.startPayload; // Utilisé pour les parrainages
+  const userId = ctx.from.id;
+  const username = ctx.from.username || 'Utilisateur';
+  const referrerId = ctx.startPayload ? parseInt(ctx.startPayload) : null; // Utilisé pour les parrainages
 
   isUserRegistered(userId, (registered) => {
     if (!registered) {
@@ -113,7 +113,7 @@ bot.action('check', (ctx) => {
 
 // Mon compte
 bot.hears('Mon compte 👥', (ctx) => {
-  const userId = ctx.message.from.id;
+  const userId = ctx.from.id;
 
   db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
     if (err) {
@@ -134,13 +134,13 @@ bot.hears('Mon compte 👥', (ctx) => {
 
 // Inviter
 bot.hears('Inviter🫂', (ctx) => {
-  const userId = ctx.message.from.id;
+  const userId = ctx.from.id;
   ctx.reply(`Partager ce lien et gagnez 700 Fcfa à chaque invité:\n🔗Lien: https://t.me/Hush_cashbot?start=${userId}`);
 });
 
 // Play to win 🎮
 bot.hears('Play to win 🎮', (ctx) => {
-  const userId = ctx.message.from.id;
+  const userId = ctx.from.id;
 
   // Le lien pour jouer, avec un code d'accès unique basé sur l'ID de l'utilisateur
   const playLink = `https://t.me/gxgcashbot/notcoin?ref=${userId}`;
@@ -157,7 +157,7 @@ bot.hears('Play to win 🎮', (ctx) => {
 
 // Withdrawal
 bot.hears('Withdrawal💰', (ctx) => {
-  const userId = ctx.message.from.id;
+  const userId = ctx.from.id;
 
   db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
     if (err) {
