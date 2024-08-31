@@ -2,7 +2,7 @@
   "name": "bot26-1",
   "version": "1.0.0",
   "description": "A Telegram bot using Telegraf and MySQL",
-  "main": "index.js",
+  "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
   },
