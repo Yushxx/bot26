@@ -6,6 +6,7 @@ const http = require('http');
 const bot = new Telegraf('7055389679:AAHgPOvZ0UWArqOvNszAIBsfuvaOf-U4oDI');
 
 // Configurer la connexion MySQL
+// Configurer la connexion MySQL
 const db = mysql.createConnection({
   host: '109.70.148.57',
   user: 'solkahor_aire',
@@ -15,17 +16,17 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) {
-    console.error('Erreur de connexion à la base de données:', err);
+    console.error('Erreur de connexion Ã  la base de donnÃ©es:', err);
     return;
   }
-  console.log('Connecté à la base de données MySQL');
+  console.log('ConnectÃ© Ã  la base de donnÃ©es MySQL');
 });
 
-// Fonction pour vérifier si l'utilisateur est déjà enregistré
+// Fonction pour vÃ©rifier si l'utilisateur est dÃ©jÃ  enregistrÃ©
 function isUserRegistered(userId, callback) {
   db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
     if (err) {
-      console.error('Erreur lors de la vérification de l\'utilisateur:', err);
+      console.error('Erreur lors de la vÃ©rification de l\'utilisateur:', err);
       callback(false);
       return;
     }
@@ -35,20 +36,20 @@ function isUserRegistered(userId, callback) {
 
 // Fonction pour enregistrer un nouvel utilisateur
 function registerUser(userId, username, referrerId) {
-  db.query('INSERT INTO users (id, username, balance, invited_count, referrer_id) VALUES (?, ?, 0, 0, ?)', [userId, username, referrerId], (err) => {
+  db.query('INSERT INTO users (id, username, balance, invited_count, referrer_id) VALUES (?, ?, 0, 0, ?)', [userId, username, referrerId], (err, results) => {
     if (err) {
       console.error('Erreur lors de l\'enregistrement de l\'utilisateur:', err);
       return;
     }
-    console.log('Utilisateur enregistré:', userId);
+    console.log('Utilisateur enregistrÃ©:', userId);
 
-    // Mettre à jour le compteur d'invités du parrain
+    // Mettre Ã  jour le compteur d'invitÃ©s du parrain
     if (referrerId) {
-      db.query('UPDATE users SET invited_count = invited_count + 1 WHERE id = ?', [referrerId], (err) => {
+      db.query('UPDATE users SET invited_count = invited_count + 1 WHERE id = ?', [referrerId], (err, results) => {
         if (err) {
-          console.error('Erreur lors de la mise à jour du compteur d\'invités:', err);
+          console.error('Erreur lors de la mise Ã  jour du compteur d\'invitÃ©s:', err);
         } else {
-          console.log('Compteur d\'invités mis à jour pour:', referrerId);
+          console.log('Compteur d\'invitÃ©s mis Ã  jour pour:', referrerId);
         }
       });
     }
@@ -57,9 +58,9 @@ function registerUser(userId, username, referrerId) {
 
 // Commande /start
 bot.start((ctx) => {
-  const userId = ctx.from.id;
-  const username = ctx.from.username || 'Utilisateur';
-  const referrerId = ctx.startPayload ? parseInt(ctx.startPayload) : null; // Utilisé pour les parrainages
+  const userId = ctx.message.from.id;
+  const username = ctx.message.from.username || 'Utilisateur';
+  const referrerId = ctx.startPayload; // UtilisÃ© pour les parrainages
 
   isUserRegistered(userId, (registered) => {
     if (!registered) {
@@ -67,19 +68,21 @@ bot.start((ctx) => {
     }
   });
 
-  ctx.reply(`Salut, bienvenue dans le programme de récompense GxGcash. Veuillez rejoindre les canaux ci-dessous avant de continuer:`, {
-    reply_markup: {
+  ctx.reply(`Salut, bienvenue dans le programme de rÃ©compense GxGcash. Veuillez rejoindre les canaux ci-dessous avant de continuer:`, {
+  reply_markup: {
       inline_keyboard: [
-        [{ text: 'Canal 1', url: 'https://t.me/+YbIDtsrloZZiNmE0' }],
-        [{ text: 'Canal 2', url: 'https://t.me/+rSXyxHTwcN5lNWE0' }],
-        [{ text: 'Check✅️', callback_data: 'check' }]
+      [{ text: 'Canal 1', url: 'https://t.me/+YbIDtsrloZZiNmE0' }],
+                [{ text: 'Canal 2', url: 'https://t.me/+rSXyxHTwcN5lNWE0' }],
+        [{ text: 'Checkâœ…ï¸', callback_data: 'check' }]
       ]
     },
     parse_mode: 'Markdown'
   });
 });
 
-// Vérification de l'adhésion aux canaux
+
+
+// VÃ©rification de l'adhÃ©sion aux canaux
 bot.action('check', (ctx) => {
   const userId = ctx.from.id;
 
@@ -93,12 +96,12 @@ bot.action('check', (ctx) => {
         ctx.reply('Bienvenue au tableau de bord', {
           reply_markup: {
             keyboard: [
-              [{ text: 'Mon compte 👥' }, { text: 'Inviter🫂' }],
-              [{ text: 'Play to win 🎮' }, { text: 'Withdrawal💰' }],
-              [{ text: 'Support📩' }, { text: 'tuto' }]
+              [{ text: 'Mon compte ðŸ‘¥' }, { text: 'InviterðŸ«‚' }],
+              [{ text: 'Play to win ðŸŽ®' }, { text: 'WithdrawalðŸ’°' }],
+              [{ text: 'SupportðŸ“©' }, { text: 'tuto' }]
             ],
             resize_keyboard: true,
-            one_time_keyboard: false 
+            one_time_keyboard:false 
           }
         });
       } else {
@@ -106,47 +109,47 @@ bot.action('check', (ctx) => {
       }
     })
     .catch((err) => {
-      console.error('Erreur lors de la vérification des membres:', err);
-      ctx.reply('Une erreur est survenue lors de la vérification. Veuillez réessayer.');
+      console.error('Erreur lors de la vÃ©rification des membres:', err);
+      ctx.reply('Une erreur est survenue lors de la vÃ©rification. Veuillez rÃ©essayer.');
     });
 });
 
 // Mon compte
-bot.hears('Mon compte 👥', (ctx) => {
-  const userId = ctx.from.id;
+bot.hears('Mon compte ðŸ‘¥', (ctx) => {
+  const userId = ctx.message.from.id;
 
   db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
     if (err) {
-      console.error('Erreur lors de la récupération des informations utilisateur:', err);
-      ctx.reply('Une erreur est survenue. Veuillez réessayer plus tard.');
+      console.error('Erreur lors de la rÃ©cupÃ©ration des informations utilisateur:', err);
+      ctx.reply('Une erreur est survenue. Veuillez rÃ©essayer plus tard.');
       return;
     }
 
     if (results.length > 0) {
       const user = results[0];
       const balance = user.invited_count * 700; // Calculer le solde
-      ctx.reply(`🤴🏻 Mon compte\n🆔 ID: ${user.id}\n💰Balance: ${balance} Fcfa\n🫂Invités: ${user.invited_count}`);
+      ctx.reply(`ðŸ¤´ðŸ» Mon compte\nðŸ†” ID: ${user.id}\nðŸ’°Balance: ${balance} Fcfa\nðŸ«‚InvitÃ©s: ${user.invited_count}`);
     } else {
-      ctx.reply('Utilisateur non trouvé.');
+      ctx.reply('Utilisateur non trouvÃ©.');
     }
   });
 });
 
 // Inviter
-bot.hears('Inviter🫂', (ctx) => {
-  const userId = ctx.from.id;
-  ctx.reply(`Partager ce lien et gagnez 700 Fcfa à chaque invité:\n🔗Lien: https://t.me/Hush_cashbot?start=${userId}`);
+bot.hears('InviterðŸ«‚', (ctx) => {
+  const userId = ctx.message.from.id;
+  ctx.reply(`Partager ce lien et gagnez 700 Fcfa Ã  chaque invitÃ©:\nðŸ”—Lien: https://t.me/Hush_cashbot?start=${userId}`);
 });
 
-// Play to win 🎮
-bot.hears('Play to win 🎮', (ctx) => {
-  const userId = ctx.from.id;
+// Play to win ðŸŽ®
+bot.hears('Play to win ðŸŽ®', (ctx) => {
+  const userId = ctx.message.from.id;
 
-  // Le lien pour jouer, avec un code d'accès unique basé sur l'ID de l'utilisateur
+  // Le lien pour jouer, avec un code d'accÃ¨s unique basÃ© sur l'ID de l'utilisateur
   const playLink = `https://t.me/gxgcashbot/notcoin?ref=${userId}`;
 
-  // Envoyer un message avec le code d'accès unique et un bouton inline "Play"
-  ctx.reply(`Taper et gagner des pièces\n\nVotre code d'accès: ${userId}\n\nCliquez en bas pour commencer`, {
+  // Envoyer un message avec le code d'accÃ¨s unique et un bouton inline "Play"
+  ctx.reply(`Taper et gagner des piÃ¨ces\n\nVotre code d'accÃ¨s: ${userId}\n\nCliquez en bas pour commencer`, {
     reply_markup: {
       inline_keyboard: [
         [{ text: 'Play', url: playLink }]  // Bouton "Play" qui redirige vers le lien
@@ -156,13 +159,13 @@ bot.hears('Play to win 🎮', (ctx) => {
 });
 
 // Withdrawal
-bot.hears('Withdrawal💰', (ctx) => {
-  const userId = ctx.from.id;
+bot.hears('WithdrawalðŸ’°', (ctx) => {
+  const userId = ctx.message.from.id;
 
   db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
     if (err) {
-      console.error('Erreur lors de la vérification du solde:', err);
-      ctx.reply('Une erreur est survenue. Veuillez réessayer plus tard.');
+      console.error('Erreur lors de la vÃ©rification du solde:', err);
+      ctx.reply('Une erreur est survenue. Veuillez rÃ©essayer plus tard.');
       return;
     }
 
@@ -175,33 +178,32 @@ bot.hears('Withdrawal💰', (ctx) => {
         ctx.reply('Le minimum de retrait est de 30.000 Fcfa.');
       }
     } else {
-      ctx.reply('Utilisateur non trouvé.');
+      ctx.reply('Utilisateur non trouvÃ©.');
     }
   });
 });
-
-// tuto
+// Support
 bot.hears('tuto', (ctx) => {
-  ctx.reply(`tuto👇`, {
-    reply_markup: {
-      inline_keyboard: [
-        [{ text: 'voir le tutoriel🔗', url: 'https://t.me/gxgcaca' }]
-      ]
+  ctx.reply(`tuto`  , {
+              reply_markup: {
+                  inline_keyboard: [
+                  [{ text: 'voirðŸ”—', url: 'https://t.me/gxgcaca' }]
+                          ]
     },
     parse_mode: 'Markdown'
   });
 });
 
+
 // Support
-bot.hears('Support📩', (ctx) => {
+bot.hears('SupportðŸ“©', (ctx) => {
   ctx.reply('Contact: @Medatt00');
 });
 
 bot.launch();
 
-console.log('Bot démarré');
-
-// Code keep_alive pour éviter que le bot ne s'endorme
+console.log('Bot dÃ©marrÃ©');
+// Code keep_alive pour Ã©viter que le bot ne s'endorme
 http.createServer(function (req, res) {
     res.write("I'm alive");
     res.end();
