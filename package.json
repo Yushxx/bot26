@@ -1,18 +1,16 @@
 {
-  "name": "bot26",
+  "name": "bot26-1",
   "version": "1.0.0",
-  "description": "Un bot Telegram avec intégration MySQL",
+  "description": "A Telegram bot using Telegraf and MySQL",
   "main": "index.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "telegraf": "^4.12.0",
-    "mysql2": "^3.0.0"
+    "telegraf": "^4.10.0",
+    "mysql2": "^3.1.0",
+    "http": "0.0.1-security"
   },
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "author": "",
-  "license": "ISC"
+  "author": "Your Name",
+  "license": "MIT"
 }
