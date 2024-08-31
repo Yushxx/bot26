@@ -10,7 +10,7 @@ const bot = new Telegraf('7055389679:AAHgPOvZ0UWArqOvNszAIBsfuvaOf-U4oDI');
 const db = mysql.createConnection({
   host: '109.70.148.57',
   user: 'solkahor_aire',
-  password: '#Fuck0099',
+  password: 'TesteTeste24',
   database: 'solkahor_aire'
 });
 
