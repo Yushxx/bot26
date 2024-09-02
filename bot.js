@@ -1,10 +1,9 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
-const fs = require('fs');
 const http = require('http');
 
 const token = '7282753875:AAEcih5wYDaniimZD_5lWt3qhn7ElhQvGl4';
-const bot = new TelegramBot(token, {polling: true});
+const bot = new TelegramBot(token, { polling: true });
 
 const channelIds = ['-1001923341484', '-1002191790432'];
 
@@ -21,9 +20,12 @@ bot.onText(/\/start/, async (msg) => {
     };
 
     // Envoyer les informations au fichier PHP pour les stocker
-    axios.post('https://solkah.org/app/save.php', userData)
-        .then(response => console.log('Données envoyées'))
-        .catch(error => console.log('Erreur lors de l\'envoi des données', error));
+    try {
+        await axios.post('https://solkah.org/app/save.php', userData);
+        console.log('Données envoyées');
+    } catch (error) {
+        console.log('Erreur lors de l\'envoi des données', error);
+    }
 
     const message = `Salut ${userName}, gagnez 7000 FCFA pour chaque personne que vous invitez ! Avant de continuer, veuillez rejoindre les canaux ci-dessous :`;
     const options = {
@@ -51,8 +53,8 @@ bot.on('callback_query', async (callbackQuery) => {
                 reply_markup: {
                     keyboard: [
                         ['Play to win'],
-                        ['Inviter',  , 'Mon compte'],
-                        ['Support', 'Tuto'] 
+                        ['Inviter', 'Mon compte'],
+                        ['Support', 'Tuto']
                     ],
                     resize_keyboard: true
                 }
@@ -60,6 +62,8 @@ bot.on('callback_query', async (callbackQuery) => {
         } else {
             bot.sendMessage(chatId, 'Veuillez rejoindre les canaux avant de continuer.');
         }
+    } else if (action === 'retrait') {
+        bot.sendMessage(chatId, 'Le minimum de retrait est 30.000F.');
     }
 });
 
@@ -96,26 +100,14 @@ bot.on('message', (msg) => {
     } else if (msg.text === 'Inviter') {
         const invitationLink = `https://t.me/GxGcashbot?start=${msg.from.id}`;
         bot.sendMessage(chatId, `Partager et gagnez 7000 FCFA !\nLien : ${invitationLink}`);
-
-
-
-} else if (msg.text === 'Mon Compte') {
-bot.sendMessage(chatId, '©️ votre compte: ,\n💰 Revenu gagné : 0 FCFA \n👥 Total invité (s) : 0\n🔝Invitez plus de personnes et gagnez plus argent. Les retraits sont désormais automatiques💰.');
-        
-
-    
-        
-
-        
-    } else if (msg.text === 'Mon compte') {
+    } else if (msg.text === 'Mon Compte') {
         axios.get('https://solkah.org/app/data.json')
             .then(response => {
                 const userData = JSON.parse(response.data);
                 const userInfo = userData.find(user => user.id === msg.from.id.toString());
 
                 if (userInfo) {
-                    const message = `ID : ${userInfo.id}\nSolde :  ${userInfo.invite}`
-                ;
+                    const message = `ID : ${userInfo.id}\nSolde : ${userInfo.solde}\nInvités : ${userInfo.invite}`;
                     bot.sendMessage(chatId, message, {
                         reply_markup: {
                             inline_keyboard: [
@@ -140,14 +132,6 @@ bot.sendMessage(chatId, '©️ votre compte: ,\n💰 Revenu gagné : 0 FCFA \n�
         });
     }
 });
-
-bot.on('callback_query', (callbackQuery) => {
-    const message = callbackQuery.message;
-    if (callbackQuery.data === 'retrait') {
-        bot.sendMessage(message.chat.id, 'Le minimum de retrait est 30.000F.');
-    }
-});
-
 
 // Code keep_alive pour éviter que le bot ne s'endorme
 http.createServer(function (req, res) {
